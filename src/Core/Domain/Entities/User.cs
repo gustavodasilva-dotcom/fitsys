@@ -8,9 +8,9 @@ namespace Domain.Entities
         public User(ObjectId id, string name, string email, string password)
             : base(id)
         {
-            Name = name;
-            Email = email;
-            Password = password;
+            Name = name.Trim();
+            Email = email.Trim();
+            Password = password.Trim();
         }
 
         private User()

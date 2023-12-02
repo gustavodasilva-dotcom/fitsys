@@ -26,7 +26,7 @@ namespace Web.Controllers
             {
                 var user = await _mediator.Send(new GetUserByEmailQuery(email));
 
-                if (!BCrypt.Net.BCrypt.Verify(password, user.Password))
+                if (!BCrypt.Net.BCrypt.Verify(password, user.User.Password))
                     throw new Exception("Senha incorreta");
 
                 return Redirect("/Home/Index");

@@ -1,16 +1,18 @@
-﻿using Domain.Abstractions;
+﻿using Application.Exceptions;
+using Domain.Abstractions;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Users.Queries.GetUserByEmail
 {
-    internal sealed class GetUserQueryHandler(IUserRepository userRepository) : IRequestHandler<GetUserByEmailQuery, User>
+    internal sealed class GetUserQueryHandler(IPersonsRepository personsRepository) : IRequestHandler<GetUserByEmailQuery, Person>
     {
-        private readonly IUserRepository _userRepository = userRepository;
+        private readonly IPersonsRepository _personsRepository = personsRepository;
 
-        public Task<User> Handle(GetUserByEmailQuery request, CancellationToken cancellationToken)
+        public Task<Person> Handle(GetUserByEmailQuery request, CancellationToken cancellationToken)
         {
-            var user = _userRepository.GetByEmail(request.Email) ?? throw new Exception("");
+            var user = _personsRepository.Get(p => p.User != null && p.User.Email.Trim().Equals(request.Email.Trim()))
+                ?? throw new UserNotFoundException(request.Email);
             return user;
         }
     }

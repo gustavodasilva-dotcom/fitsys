@@ -19,11 +19,11 @@ namespace Infrastructure
             _database = _mongoClient.GetDatabase(_configuration["MongoDB:Database"]);
         }
 
-        public IMongoCollection<User> Users
+        public IMongoCollection<Person> Persons
         {
             get
             {
-                return _database.GetCollection<User>(nameof(User).Pluralize());
+                return _database.GetCollection<Person>(nameof(Person).Pluralize());
             }
         }
     }

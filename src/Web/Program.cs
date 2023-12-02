@@ -1,3 +1,5 @@
+using Application.Clients.Commands.CreateClient;
+using Application.Clients.Queries.GetAllClients;
 using Application.Users.Commands.CreateUser;
 using Application.Users.Queries.GetUserByEmail;
 using Domain.Abstractions;
@@ -9,12 +11,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped(typeof(IMongoContext), typeof(MongoContext));
-builder.Services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
+builder.Services.AddSingleton(typeof(IMongoContext), typeof(MongoContext));
+builder.Services.AddSingleton(typeof(IPersonsRepository), typeof(PersonsRepository));
 
 builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblies(
     typeof(CreateUserCommand).Assembly,
-    typeof(GetUserByEmailQuery).Assembly
+    typeof(GetUserByEmailQuery).Assembly,
+    typeof(GetAllClientsQuery).Assembly,
+    typeof(CreateClientCommand).Assembly
     ));
 
 var app = builder.Build();

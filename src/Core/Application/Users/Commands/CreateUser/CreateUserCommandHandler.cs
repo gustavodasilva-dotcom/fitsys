@@ -5,16 +5,17 @@ using MongoDB.Bson;
 
 namespace Application.Users.Commands.CreateUser
 {
-    internal sealed class CreateUserCommandHandler(IUserRepository userRepository) : IRequestHandler<CreateUserCommand, ObjectId>
+    internal sealed class CreateUserCommandHandler(IPersonsRepository personsRepository) : IRequestHandler<CreateUserCommand, ObjectId>
     {
-        private readonly IUserRepository _userRepository = userRepository;
+        private readonly IPersonsRepository _personsRepository = personsRepository;
 
         public Task<ObjectId> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-            var user = new User(ObjectId.GenerateNewId(), request.Name, request.Email, passwordHash);
-            _userRepository.Save(user);
-            return Task.FromResult(user.Id);
+            var id = ObjectId.GenerateNewId();
+            var person = new Person(id, new User(id, request.Name, request.Email, passwordHash));
+            _personsRepository.Save(person);
+            return Task.FromResult(person.Id);
         }
     }
 }

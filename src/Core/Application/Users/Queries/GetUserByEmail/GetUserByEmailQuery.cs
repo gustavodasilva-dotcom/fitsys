@@ -3,5 +3,5 @@ using MediatR;
 
 namespace Application.Users.Queries.GetUserByEmail
 {
-    public sealed record GetUserByEmailQuery(string Email) : IRequest<User>;
+    public sealed record GetUserByEmailQuery(string Email) : IRequest<Person>;
 }
