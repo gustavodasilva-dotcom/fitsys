@@ -1,15 +1,14 @@
 ﻿using MongoDB.Bson;
 
-namespace Domain.Primitives
+namespace Domain.Primitives;
+
+public abstract class Entity
 {
-    public abstract class Entity
+    protected Entity(ObjectId id) => this.id = id;
+
+    protected Entity()
     {
-        protected Entity(ObjectId id) => Id = id;
-
-        protected Entity()
-        {
-        }
-
-        public ObjectId Id { get; protected set; }
     }
+
+    public ObjectId id { get; protected set; }
 }

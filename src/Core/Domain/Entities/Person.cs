@@ -1,29 +1,28 @@
 ﻿using Domain.Primitives;
 using MongoDB.Bson;
 
-namespace Domain.Entities
+namespace Domain.Entities;
+
+public sealed class Person : Entity
 {
-    public sealed class Person : Entity
+    public Person(ObjectId id, User user, Client client)
+        : base(id)
     {
-        public Person(ObjectId id, User user, Client client)
-            : base(id)
-        {
-            User = user;
-            Client = client;
-        }
-
-        public Person(ObjectId id, User user)
-            : base(id)
-        {
-            User = user;
-        }
-
-        private Person()
-        {
-        }
-
-        public User User { get; set; }
-
-        public Client Client { get; set; }
+        this.user = user;
+        this.client = client;
     }
+
+    public Person(ObjectId id, User user)
+        : base(id)
+    {
+        this.user = user;
+    }
+
+    private Person()
+    {
+    }
+
+    public User user { get; private set; }
+
+    public Client client { get; private set; }
 }

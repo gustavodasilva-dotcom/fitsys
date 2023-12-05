@@ -11,7 +11,7 @@ namespace Application.Clients.Commands.CreateClient
 
         public async Task<ObjectId> Handle(CreateClientCommand request, CancellationToken cancellationToken)
         {
-            var person = await _personsRepository.Get(p => p.User != null && p.User.Email.Equals(request.Email.Trim()));
+            var person = await _personsRepository.Get(p => p.user != null && p.user.email.Equals(request.Email.Trim()));
             if (person == null)
             {
                 var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
@@ -21,7 +21,7 @@ namespace Application.Clients.Commands.CreateClient
                 person = new Person(id, user, client);
                 await _personsRepository.Save(person);
             }
-            return person.Id;
+            return person.id;
         }
     }
 }

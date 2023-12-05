@@ -32,12 +32,12 @@ namespace Infrastructure.Repositories
 
         public async Task Update(Person entity)
         {
-            await _mongoContext.Persons.ReplaceOneAsync(u => u.Id.Equals(entity.Id), entity);
+            await _mongoContext.Persons.ReplaceOneAsync(u => u.id.Equals(entity.id), entity);
         }
 
         public async Task Delete(ObjectId Id)
         {
-            await _mongoContext.Persons.DeleteOneAsync(u => u.Id.Equals(Id));
+            await _mongoContext.Persons.DeleteOneAsync(u => u.id.Equals(Id));
         }
     }
 }

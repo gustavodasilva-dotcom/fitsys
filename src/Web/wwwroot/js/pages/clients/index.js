@@ -31,7 +31,7 @@ var clientIndexPage = function () {
                         route: "Clients/GetAll"
                     },
                     post: {
-                        route: "Clients/Register"
+                        route: "Clients/Details"
                     }
                 }
             });

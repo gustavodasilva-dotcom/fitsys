@@ -2,7 +2,7 @@
 
 const helperFunctions = function () {
     return {
-        getFullRoute: function (route) {
+        getBaseRoute: function (route) {
             return [
                 window.location.origin,
                 route

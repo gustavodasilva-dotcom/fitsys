@@ -11,7 +11,7 @@ namespace Application.Users.Queries.GetUserByEmail
 
         public Task<Person> Handle(GetUserByEmailQuery request, CancellationToken cancellationToken)
         {
-            var user = _personsRepository.Get(p => p.User != null && p.User.Email.Trim().Equals(request.Email.Trim()))
+            var user = _personsRepository.Get(p => p.user != null && p.user.email.Trim().Equals(request.Email.Trim()))
                 ?? throw new UserNotFoundException(request.Email);
             return user;
         }

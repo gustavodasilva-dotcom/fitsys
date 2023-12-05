@@ -1,26 +1,25 @@
 ﻿using Domain.Primitives;
 using MongoDB.Bson;
 
-namespace Domain.Entities
+namespace Domain.Entities;
+
+public sealed class Client : Entity
 {
-    public sealed class Client : Entity
+    public Client(ObjectId id, decimal weight, decimal height, DateTime birthday)
+        : base(id)
     {
-        public Client(ObjectId id, decimal weight, decimal height, DateTime birthday)
-            : base(id)
-        {
-            Weight = weight;
-            Height = height;
-            Birthday = birthday;
-        }
-
-        private Client()
-        { 
-        }
-
-        public decimal Weight { get; set; }
-
-        public decimal Height { get; set; }
-
-        public DateTime Birthday { get; set; }
+        this.weight = weight;
+        this.weight = height;
+        this.birthday = birthday;
     }
+
+    private Client()
+    {
+    }
+
+    public decimal weight { get; private set; }
+
+    public decimal height { get; private set; }
+
+    public DateTime birthday { get; private set; }
 }

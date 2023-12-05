@@ -13,3 +13,15 @@
 <script src="~/js/helpers/helper.functions.js"></script>
 <script src="~/js/helpers/helper.popups.js"></script>
 <script src="~/js/helpers/helper.datatable.js"></script>
+<script src="~/js/helpers/helper.details.page.js"></script>
+
+<script>
+    $.when(
+        $.getScript("/js/helpers/helper.prototypes.js"),
+        $.Deferred(function (deferred) {
+            $(deferred.resolve);
+        })
+    ).done(function () {
+        helperPrototypes.init();
+    });
+</script>

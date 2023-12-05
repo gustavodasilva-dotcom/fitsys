@@ -1,5 +1,7 @@
 using Application.Clients.Commands.CreateClient;
 using Application.Clients.Queries.GetAllClients;
+using Application.Clients.Queries.GetClientById;
+using Application.Files.Commands.UploadFile;
 using Application.Users.Commands.CreateUser;
 using Application.Users.Queries.GetUserByEmail;
 using Domain.Abstractions;
@@ -18,7 +20,9 @@ builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblies(
     typeof(CreateUserCommand).Assembly,
     typeof(GetUserByEmailQuery).Assembly,
     typeof(GetAllClientsQuery).Assembly,
-    typeof(CreateClientCommand).Assembly
+    typeof(CreateClientCommand).Assembly,
+    typeof(GetClientByIdQuery).Assembly,
+    typeof(UploadFileCommand).Assembly
     ));
 
 var app = builder.Build();

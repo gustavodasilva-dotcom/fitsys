@@ -46,7 +46,7 @@ class helperDataTable {
             const result = await $.get({
                 async: true,
                 type: "GET",
-                url: helperFunctions.getFullRoute(action.route),
+                url: helperFunctions.getBaseRoute(action.route),
                 data: action.params ?? action.params
             });
 
@@ -63,8 +63,8 @@ class helperDataTable {
             const postRoute = this.options.actions.post;
 
             const $btn = this.$('<a>').addClass('btn btn-primary mb-3');
-            $btn.attr('href', helperFunctions.getFullRoute(postRoute.route));
-            $btn.text("Novo");
+            $btn.attr('href', helperFunctions.getBaseRoute(postRoute.route));
+            $btn.text("New");
 
             this.$wrapper.append($btn);
 

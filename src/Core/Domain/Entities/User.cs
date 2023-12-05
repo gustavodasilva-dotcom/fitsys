@@ -1,26 +1,25 @@
 ﻿using Domain.Primitives;
 using MongoDB.Bson;
 
-namespace Domain.Entities
+namespace Domain.Entities;
+
+public sealed class User : Entity
 {
-    public sealed class User : Entity
+    public User(ObjectId id, string name, string email, string password)
+        : base(id)
     {
-        public User(ObjectId id, string name, string email, string password)
-            : base(id)
-        {
-            Name = name.Trim();
-            Email = email.Trim();
-            Password = password.Trim();
-        }
-
-        private User()
-        {
-        }
-
-        public string Name { get; private set; }
-
-        public string Email { get; private set; }
-
-        public string Password { get; private set; }
+        this.name = name.Trim();
+        this.email = email.Trim();
+        this.password = password.Trim();
     }
+
+    private User()
+    {
+    }
+
+    public string name { get; private set; }
+
+    public string email { get; private set; }
+
+    public string password { get; private set; }
 }

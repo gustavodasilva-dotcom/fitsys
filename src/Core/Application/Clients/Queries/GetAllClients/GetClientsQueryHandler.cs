@@ -10,7 +10,7 @@ namespace Application.Clients.Queries.GetAllClients
 
         public async Task<List<Person>> Handle(GetAllClientsQuery request, CancellationToken cancellationToken)
         {
-            return await _personsRepository.GetAll(p => p.Client != null);
+            return await _personsRepository.GetAll(p => p.client != null);
         }
     }
 }

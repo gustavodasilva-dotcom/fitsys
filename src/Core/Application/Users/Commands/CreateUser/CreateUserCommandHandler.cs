@@ -15,7 +15,7 @@ namespace Application.Users.Commands.CreateUser
             var id = ObjectId.GenerateNewId();
             var person = new Person(id, new User(id, request.Name, request.Email, passwordHash));
             _personsRepository.Save(person);
-            return Task.FromResult(person.Id);
+            return Task.FromResult(person.id);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Web.Controllers
             {
                 var user = await _mediator.Send(new GetUserByEmailQuery(email));
 
-                if (!BCrypt.Net.BCrypt.Verify(password, user.User.Password))
+                if (!BCrypt.Net.BCrypt.Verify(password, user.user.password))
                     throw new Exception("Senha incorreta");
 
                 return Redirect("/Home/Index");
@@ -35,7 +35,6 @@ namespace Web.Controllers
             {
                 ViewBag.Message = e.Message;
             }
-
             return View();
         }
 
@@ -50,7 +49,6 @@ namespace Web.Controllers
             {
                 ViewBag.Message = e.Message;
             }
-
             return View();
         }
     }
