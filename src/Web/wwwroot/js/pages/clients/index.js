@@ -22,7 +22,7 @@ var clientIndexPage = function () {
                     {
                         caption: "Birthday",
                         getFieldValue: (data) => {
-                            return data.client.birthday;
+                            return (data.client.birthday ?? "").JsonDateToInputDate();
                         }
                     }
                 ],
@@ -32,6 +32,10 @@ var clientIndexPage = function () {
                     },
                     post: {
                         route: "Clients/Details"
+                    },
+                    put: {
+                        route: "Clients/Details",
+                        param: "UID"
                     }
                 }
             });

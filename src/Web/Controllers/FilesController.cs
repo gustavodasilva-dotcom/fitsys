@@ -14,6 +14,7 @@ namespace Web.Controllers
         public async Task<JsonResult> Upload(IFormCollection form)
         {
             JsonResultViewModel result = new();
+
             try
             {
                 result.data = await _mediator.Send(new UploadFileCommand(form));
@@ -23,6 +24,7 @@ namespace Web.Controllers
                 result.statusCode = HttpStatusCode.BadRequest;
                 result.message = e.Message;
             }
+            
             return Json(result);
         }
     }

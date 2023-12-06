@@ -12,9 +12,15 @@ namespace Application.Users.Commands.CreateUser
         public Task<ObjectId> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-            var id = ObjectId.GenerateNewId();
-            var person = new Person(id, new User(id, request.Name, request.Email, passwordHash));
+
+            ObjectId id = ObjectId.GenerateNewId();
+            Guid uid = Guid.NewGuid();
+            
+            User user = new(id, uid, request.Name, request.Email, passwordHash);
+            Person person = new(id, uid, user);
+
             _personsRepository.Save(person);
+            
             return Task.FromResult(person.id);
         }
     }

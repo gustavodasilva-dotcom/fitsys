@@ -21,11 +21,12 @@ class helperDetailsPage {
             routes: {
                 post: {
                     path: null,
-                    params: {}
+                    callback: () => { }
                 },
                 put: {
                     path: null,
-                    param: null
+                    param: null,
+                    callback: () => { }
                 }
             },
             defaultValues: {},
@@ -73,26 +74,56 @@ class helperDetailsPage {
             return;
         }
 
-        this.model = { ...this.model, ...this.options.defaultValues };
+        this.model = { ...this.options.defaultValues, ...this.model };
         this.model = this.options.getFormValues(this);
-
-        const postRoute = this.options.routes.post;
 
         const ajaxParams = {
             async: true,
-            type: "POST",
-            url: helperFunctions.getBaseRoute(postRoute.path),
             contentType: "application/json",
-            dataType: "json",
-            data: JSON.stringify(this.model)
+            dataType: "json"
         };
-        
+
+        const getRoute = this.options.routes.get;
+
+        const params = new URL(window.location.href);
+        const value = params.searchParams.get(getRoute.param);
+
+        var callback = () => { };
+
+        if (value) {
+            const putRoute = this.options.routes.put;
+            callback = putRoute.callback;
+
+            const data = new Object();
+            data[putRoute.param] = value;
+
+            Object.assign(ajaxParams, {
+                type: "PUT",
+                url: [
+                    helperFunctions.getBaseRoute(putRoute.path),
+                    new URLSearchParams(data).toString()
+                ].join('?'),
+                data: JSON.stringify(this.model)
+            });
+        } else {
+            const postRoute = this.options.routes.post;
+            callback = postRoute.callback;
+
+            Object.assign(ajaxParams, {
+                type: "POST",
+                url: helperFunctions.getBaseRoute(postRoute.path),
+                data: JSON.stringify(this.model)
+            });
+        }
+
         const result = await $.ajax(ajaxParams);
 
         if (result.statusCode !== helperConstants.statusCodes.OK) {
             helperPopUp.dialog.warning(helperConstants.messages.unexpected, result.message);
             return;
         }
+
+        callback(this);
     }
     _setupEvents = function () {
         this.options.setupEvents(this);

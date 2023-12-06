@@ -1,4 +1,5 @@
 using Application.Clients.Commands.CreateClient;
+using Application.Clients.Commands.UpdateClient;
 using Application.Clients.Queries.GetAllClients;
 using Application.Clients.Queries.GetClientById;
 using Application.Files.Commands.UploadFile;
@@ -22,7 +23,8 @@ builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblies(
     typeof(GetAllClientsQuery).Assembly,
     typeof(CreateClientCommand).Assembly,
     typeof(GetClientByIdQuery).Assembly,
-    typeof(UploadFileCommand).Assembly
+    typeof(UploadFileCommand).Assembly,
+    typeof(UpdateClientCommand).Assembly
     ));
 
 var app = builder.Build();

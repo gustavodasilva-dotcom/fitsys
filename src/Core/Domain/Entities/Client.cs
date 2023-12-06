@@ -5,11 +5,11 @@ namespace Domain.Entities;
 
 public sealed class Client : Entity
 {
-    public Client(ObjectId id, decimal weight, decimal height, DateTime birthday)
-        : base(id)
+    public Client(ObjectId id, Guid uid, decimal weight, decimal height, DateTime birthday)
+        : base(id, uid)
     {
         this.weight = weight;
-        this.weight = height;
+        this.height = height;
         this.birthday = birthday;
     }
 

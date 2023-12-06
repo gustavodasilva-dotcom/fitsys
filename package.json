@@ -1,0 +1,27 @@
+{
+  "name": "fitsys",
+  "version": "1.0.0",
+  "description": "Your high-performance gym management system.",
+  "main": "index.js",
+  "scripts": {
+    "start": "dotnet run --project ./src/Web/",
+    "build": "dotnet build ./src/Web/",
+    "hotreload": "dotnet run --lauch-profile hotreloadprofile --project ./src/Web/",
+    "clean": "dotnet clean"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gustavodasilva-dotcom/fitsys.git"
+  },
+  "keywords": [
+    "aspnet",
+    "web",
+    "mvc"
+  ],
+  "author": "Gustavo Aquino da Silva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gustavodasilva-dotcom/fitsys/issues"
+  },
+  "homepage": "https://github.com/gustavodasilva-dotcom/fitsys#readme"
+}

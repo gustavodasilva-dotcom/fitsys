@@ -22,12 +22,17 @@ class helperDataTable {
                 },
                 post: {
                     route: null,
-                    params: null,
+                    param: null,
+                    fallback: null
+                },
+                put: {
+                    route: null,
+                    param: null,
                     fallback: null
                 },
                 delete: {
                     route: null,
-                    params: null,
+                    param: null,
                     fallback: null
                 }
             }
@@ -87,6 +92,8 @@ class helperDataTable {
         };
 
         const _createRows = () => {
+            const putRoute = this.options.actions.put;
+
             const $body = this.$('<tbody>');
             var rowNumber = 0;
 
@@ -94,7 +101,18 @@ class helperDataTable {
                 rowNumber += 1;
 
                 const $tr = this.$('<tr>');
-                $tr.append(this.$('<td>').text(rowNumber));
+                $tr.append(this.$('<td>').text(rowNumber))
+                    .attr('role', 'button')
+                    .click(() => {
+                        const base = helperFunctions.getBaseRoute(putRoute.route);
+
+                        const paramObj = new Object();
+                        paramObj[putRoute.param] = data[putRoute.param.toLowerCase()];
+
+                        const params = new URLSearchParams(paramObj).toString();
+
+                        window.location.href = [base, params].join('?');
+                    });
 
                 this.options.columns.forEach((column) => {
                     const value = column.getFieldValue(data);

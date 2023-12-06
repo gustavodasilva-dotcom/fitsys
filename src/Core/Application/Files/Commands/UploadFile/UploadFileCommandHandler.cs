@@ -14,6 +14,7 @@ namespace Application.Files.Commands.UploadFile
             Directory.CreateDirectory(uploadsFolder);
 
             string filePath, fileName = string.Empty;
+            
             foreach (IFormFile file in request.Form.Files)
             {
                 string extension = Path.GetExtension(file.FileName);
@@ -23,6 +24,7 @@ namespace Application.Files.Commands.UploadFile
                 using Stream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
                 await file.CopyToAsync(fileStream, cancellationToken);
             }
+
             return Path.Combine(uploadsFolder, fileName);
         }
     }

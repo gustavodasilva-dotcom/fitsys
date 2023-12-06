@@ -1,4 +1,5 @@
 ﻿using Application.Clients.Commands.CreateClient;
+using Application.Clients.Commands.UpdateClient;
 using Application.Clients.Queries.GetAllClients;
 using Application.Clients.Queries.GetClientById;
 using MediatR;
@@ -28,6 +29,7 @@ namespace Web.Controllers
         public async Task<JsonResult> GetAll()
         {
             JsonResultViewModel result = new();
+
             try
             {
                 result.data = await _mediator.Send(new GetAllClientsQuery());
@@ -37,22 +39,25 @@ namespace Web.Controllers
                 result.statusCode = HttpStatusCode.BadRequest;
                 result.message = e.Message;
             }
+
             return Json(result);
         }
 
         [HttpGet]
-        public async Task<JsonResult> Get(ObjectId Id)
+        public async Task<JsonResult> Get(Guid UID)
         {
             JsonResultViewModel result = new();
+
             try
             {
-                result.data = await _mediator.Send(new GetClientByIdQuery(Id));
+                result.data = await _mediator.Send(new GetClientByIdQuery(UID));
             }
             catch (Exception e)
             {
                 result.statusCode = HttpStatusCode.BadRequest;
                 result.message = e.Message;
             }
+            
             return Json(result);
         }
 
@@ -60,6 +65,7 @@ namespace Web.Controllers
         public async Task<JsonResult> Insert([FromBody] PersonInputModel data)
         {
             JsonResultViewModel result = new();
+
             try
             {
                 result.data = await _mediator.Send(new CreateClientCommand(
@@ -68,13 +74,43 @@ namespace Web.Controllers
                     Password: data.user.password,
                     Weight: data.client.weight,
                     Height: data.client.height,
-                    Birthday: data.client.birthday));
+                    Birthday: data.client.birthday,
+                    Profile: data.profile
+                ));
             }
             catch (Exception e)
             {
                 result.statusCode = HttpStatusCode.BadRequest;
                 result.message = e.Message;
             }
+
+            return Json(result);
+        }
+
+        [HttpPut]
+        public async Task<JsonResult> Update(Guid UID, [FromBody] PersonInputModel data)
+        {
+            JsonResultViewModel result = new();
+
+            try
+            {
+                result.data = await _mediator.Send(new UpdateClientCommand(
+                    UID: UID,
+                    Name: data.user.name,
+                    Email: data.user.email,
+                    Password: data.user.password,
+                    Weight: data.client.weight,
+                    Height: data.client.height,
+                    Birthday: data.client.birthday,
+                    Profile: data.profile
+                ));
+            }
+            catch (Exception e)
+            {
+                result.statusCode = HttpStatusCode.BadRequest;
+                result.message = e.Message;
+            }
+            
             return Json(result);
         }
     }

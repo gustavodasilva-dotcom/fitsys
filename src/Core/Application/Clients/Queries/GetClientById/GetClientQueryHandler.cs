@@ -11,8 +11,9 @@ namespace Application.Clients.Queries.GetClientById
 
         public async Task<Person> Handle(GetClientByIdQuery request, CancellationToken cancellationToken)
         {
-            var client = await _personsRepository.Get(p => p.client != null && p.id == request.Id) ??
-                throw new ClientNotFoundException(request.Id.ToString());
+            var client = await _personsRepository.Get(p => p.client != null && p.uid == request.UID) ??
+                throw new ClientNotFoundException(request.UID.ToString());
+                
             return client;
         }
     }
