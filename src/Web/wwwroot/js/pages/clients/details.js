@@ -26,17 +26,17 @@ var clientDetailsPage = function () {
                     }
                 },
                 defaultValues: {
-                    user: {
+                    weight: 0,
+                    height: 0,
+                    person: {
                         name: null,
+                        birthday: null,
+                        profile: null
+                    },
+                    user: {
                         email: null,
                         password: null
-                    },
-                    client: {
-                        weight: 0,
-                        height: 0,
-                        birthday: null
-                    },
-                    profile: null
+                    }                    
                 },
                 validate: (handler) => {
                     if (!handler.$("#iptClientName").val())
@@ -122,14 +122,14 @@ var clientDetailsPage = function () {
                 fillFormInputs: (handler) => {
                     const model = handler.model;
 
-                    handler.$("#iptClientName").val(model.user.name);
+                    handler.$("#iptClientName").val(model.person.name);
                     handler.$("#iptClientEmail").val(model.user.email);
-                    handler.$("#iptClientWeight").val(model.client.weight);
-                    handler.$("#iptClientHeight").val(model.client.height);
-                    handler.$("#iptClientBirthday").val((model.client.birthday ?? "").JsonDateToInputDate());
+                    handler.$("#iptClientWeight").val(model.weight);
+                    handler.$("#iptClientHeight").val(model.height);
+                    handler.$("#iptClientBirthday").val((model.person.birthday ?? "").JsonDateToInputDate());
                     
-                    if (model.profile) {
-                        handler.profile = model.profile;
+                    if (model.person.profile) {
+                        handler.profile = model.person.profile;
                         const imageUrl = helperFunctions.getBaseRoute(handler.profile);
                         handler.$("#imgUserProfile").attr('src', imageUrl).fadeIn('slow');
                     }
@@ -137,12 +137,12 @@ var clientDetailsPage = function () {
                 getFormValues: (handler) => {
                     const model = handler.model;
                     
-                    model.user.name = handler.$("#iptClientName").val();
+                    model.weight = handler.$("#iptClientWeight").val();
+                    model.height = handler.$("#iptClientHeight").val();
+                    model.person.name = handler.$("#iptClientName").val();
+                    model.person.birthday = handler.$("#iptClientBirthday").val();
+                    model.person.profile = handler.profile;
                     model.user.email = handler.$("#iptClientEmail").val();
-                    model.client.weight = handler.$("#iptClientWeight").val();
-                    model.client.height = handler.$("#iptClientHeight").val();
-                    model.client.birthday = handler.$("#iptClientBirthday").val();
-                    model.profile = handler.profile;
 
                     return model;
                 }

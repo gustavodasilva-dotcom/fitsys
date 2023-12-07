@@ -5,6 +5,6 @@ namespace Domain.Abstractions
 {
     public interface IMongoContext
     {
-        IMongoCollection<Person> Persons { get; }
+        IMongoCollection<Client> Clients { get; }
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Application.Exceptions
 {
-    public sealed class ClientNotFoundException(string name)
-        : BaseException($"Client {name} not found")
+    public sealed class ClientNotFoundException(string reference)
+        : BaseException($"Client not found with the reference {reference}")
     {
     }
 }

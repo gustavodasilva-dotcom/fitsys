@@ -5,23 +5,30 @@ using MediatR;
 
 namespace Application.Clients.Commands.UpdateClient;
 
-internal sealed class UpdateClientCommandHandler(IPersonsRepository personsRepository) : IRequestHandler<UpdateClientCommand, Person>
+internal sealed class UpdateClientCommandHandler(IClientsRepository clientsRepository)
+    : IRequestHandler<UpdateClientCommand, Client>
 {
-    private readonly IPersonsRepository _personsRepository = personsRepository;
+    private readonly IClientsRepository _clientsRepository = clientsRepository;
 
-    public async Task<Person> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
+    public async Task<Client> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
     {
-        var person = await _personsRepository.Get(p => p.client != null && p.uid == request.UID) ??
+        Client client = await _clientsRepository.Get(p => p.uid == request.UID) ??
             throw new ClientNotFoundException(request.UID.ToString());
+
+        client.SetWeight(request.Weight);
+        client.SetHeight(request.Height);
 
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
-        User user = new(person.id, request.UID, request.Name, request.Email, passwordHash);
-        Client client = new(person.id, request.UID, request.Weight, request.Height, request.Birthday);
-        person = new Person(person.id, request.UID, user, client, request.Profile);
+        client.person.SetName(request.Name);
+        client.person.SetBirthday(request.Birthday);
+        client.person.SetProfile(request.Profile);
+
+        client.user.SetEmail(request.Email);
+        client.user.SetPassword(request.Password);
         
-        await _personsRepository.Update(person);
+        await _clientsRepository.Update(client);
         
-        return person;
+        return client;
     }
 }

@@ -2,9 +2,9 @@
 
 public class PersonInputModel
 {
-    public UserInputModel user { get; set; }
+    public string name { get; set; }
 
-    public ClientInputModel client { get; set; }
+    public DateTime birthday { get; set; }
 
     public string? profile { get; set; }
 }

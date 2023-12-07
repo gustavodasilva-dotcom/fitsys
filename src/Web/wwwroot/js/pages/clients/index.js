@@ -10,7 +10,7 @@ var clientIndexPage = function () {
                     {
                         caption: "Name",
                         getFieldValue: (data) => {
-                            return data.user.name;
+                            return data.person.name;
                         }
                     },
                     {
@@ -22,7 +22,7 @@ var clientIndexPage = function () {
                     {
                         caption: "Birthday",
                         getFieldValue: (data) => {
-                            return (data.client.birthday ?? "").JsonDateToInputDate();
+                            return (data.person.birthday ?? "").JsonDateToInputDate();
                         }
                     }
                 ],

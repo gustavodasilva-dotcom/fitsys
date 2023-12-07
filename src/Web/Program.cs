@@ -3,8 +3,6 @@ using Application.Clients.Commands.UpdateClient;
 using Application.Clients.Queries.GetAllClients;
 using Application.Clients.Queries.GetClientById;
 using Application.Files.Commands.UploadFile;
-using Application.Users.Commands.CreateUser;
-using Application.Users.Queries.GetUserByEmail;
 using Domain.Abstractions;
 using Infrastructure;
 using Infrastructure.Repositories;
@@ -15,11 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton(typeof(IMongoContext), typeof(MongoContext));
-builder.Services.AddSingleton(typeof(IPersonsRepository), typeof(PersonsRepository));
+builder.Services.AddSingleton(typeof(IClientsRepository), typeof(ClientsRepository));
 
 builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblies(
-    typeof(CreateUserCommand).Assembly,
-    typeof(GetUserByEmailQuery).Assembly,
     typeof(GetAllClientsQuery).Assembly,
     typeof(CreateClientCommand).Assembly,
     typeof(GetClientByIdQuery).Assembly,

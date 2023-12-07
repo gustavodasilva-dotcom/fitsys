@@ -6,5 +6,7 @@ public class ClientInputModel
 
     public decimal height { get; set; }
 
-    public DateTime birthday { get; set; }
+    public PersonInputModel person { get; set; }
+
+    public UserInputModel user { get; set; }
 }

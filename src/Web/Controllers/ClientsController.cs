@@ -4,7 +4,6 @@ using Application.Clients.Queries.GetAllClients;
 using Application.Clients.Queries.GetClientById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 using System.Net;
 using Web.Models.Entities;
 using Web.Models.Global;
@@ -62,20 +61,20 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> Insert([FromBody] PersonInputModel data)
+        public async Task<JsonResult> Insert([FromBody] ClientInputModel data)
         {
             JsonResultViewModel result = new();
 
             try
             {
                 result.data = await _mediator.Send(new CreateClientCommand(
-                    Name: data.user.name,
+                    Name: data.person.name,
                     Email: data.user.email,
                     Password: data.user.password,
-                    Weight: data.client.weight,
-                    Height: data.client.height,
-                    Birthday: data.client.birthday,
-                    Profile: data.profile
+                    Weight: data.weight,
+                    Height: data.height,
+                    Birthday: data.person.birthday,
+                    Profile: data.person.profile
                 ));
             }
             catch (Exception e)
@@ -88,7 +87,7 @@ namespace Web.Controllers
         }
 
         [HttpPut]
-        public async Task<JsonResult> Update(Guid UID, [FromBody] PersonInputModel data)
+        public async Task<JsonResult> Update(Guid UID, [FromBody] ClientInputModel data)
         {
             JsonResultViewModel result = new();
 
@@ -96,13 +95,13 @@ namespace Web.Controllers
             {
                 result.data = await _mediator.Send(new UpdateClientCommand(
                     UID: UID,
-                    Name: data.user.name,
+                    Name: data.person.name,
                     Email: data.user.email,
                     Password: data.user.password,
-                    Weight: data.client.weight,
-                    Height: data.client.height,
-                    Birthday: data.client.birthday,
-                    Profile: data.profile
+                    Weight: data.weight,
+                    Height: data.height,
+                    Birthday: data.person.birthday,
+                    Profile: data.person.profile
                 ));
             }
             catch (Exception e)

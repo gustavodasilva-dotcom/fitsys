@@ -1,6 +1,4 @@
-﻿using Application.Users.Commands.CreateUser;
-using Application.Users.Queries.GetUserByEmail;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers
@@ -24,10 +22,10 @@ namespace Web.Controllers
         {
             try
             {
-                var user = await _mediator.Send(new GetUserByEmailQuery(email));
+                // var user = await _mediator.Send(new GetUserByEmailQuery(email));
 
-                if (!BCrypt.Net.BCrypt.Verify(password, user.user.password))
-                    throw new Exception("Senha incorreta");
+                // if (!BCrypt.Net.BCrypt.Verify(password, user.user.password))
+                //     throw new Exception("Senha incorreta");
 
                 return Redirect("/Home/Index");
             }
@@ -43,7 +41,7 @@ namespace Web.Controllers
         {
             try
             {
-                await _mediator.Send(new CreateUserCommand(name, email, password));
+                //await _mediator.Send(new CreateUserCommand(name, email, password));
             }
             catch (Exception e)
             {

@@ -2,15 +2,15 @@
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Clients.Queries.GetAllClients
-{
-    internal sealed class GetClientsQueryHandler(IPersonsRepository personsRepository) : IRequestHandler<GetAllClientsQuery, List<Person>>
-    {
-        private readonly IPersonsRepository _personsRepository = personsRepository;
+namespace Application.Clients.Queries.GetAllClients;
 
-        public async Task<List<Person>> Handle(GetAllClientsQuery request, CancellationToken cancellationToken)
-        {
-            return await _personsRepository.GetAll(p => p.client != null);
-        }
+internal sealed class GetClientsQueryHandler(IClientsRepository clientsRepository)
+    : IRequestHandler<GetAllClientsQuery, List<Client>>
+{
+    private readonly IClientsRepository _clientsRepository = clientsRepository;
+
+    public async Task<List<Client>> Handle(GetAllClientsQuery request, CancellationToken cancellationToken)
+    {
+        return await _clientsRepository.GetAll();
     }
 }
