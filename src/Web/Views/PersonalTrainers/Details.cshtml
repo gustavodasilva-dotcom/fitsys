@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Personal Trainers";
+}
+
+<section class="section personal-details">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" action="/" class="row g-3 mt-2">
+                        <div class="col-md-6">
+                            <input type="text" name="iptPersonalName" class="form-control" id="iptPersonalName"
+                                placeholder="Your Name">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="email" name="iptPersonalEmail" class="form-control" id="iptPersonalEmail"
+                                placeholder="Email">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="date" name="iptPersonalBirthday" class="form-control" id="iptPersonalBirthday"
+                                placeholder="Birthday">
+                        </div>
+                        <div class="col-md-6">
+                            <select class="form-select" multiple id="sltPersonalShift" aria-label="Working shift"></select>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" id="btnSubmit">Submit</button>
+                            <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                    <img src="~/img/default-user-profile.jpg" alt="Profile" class="img-thumbnail" id="imgUserProfile">
+                    <div class="row mb-3 mt-3">
+                        <div class="col-sm-12">
+                            <input class="form-control" type="file" id="iptUploadUserProfile">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        $.when(
+            $.getScript("/js/pages/personalTrainers/details.js"),
+            $.Deferred(function (deferred) {
+                $(deferred.resolve);
+            })
+        ).done(function () {
+            personalTrainersDetailsPage.init({
+                wrapper: ".personal-details"
+            });
+        });
+    </script>
+}

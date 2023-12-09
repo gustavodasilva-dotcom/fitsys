@@ -20,11 +20,8 @@ public sealed class Client : Entity
     }
 
     public decimal weight { get; private set; }
-
     public decimal height { get; private set; }
-
     public Person person { get; private set; }
-
     public User user { get; private set; }
 
     public void SetWeight(decimal weight) => this.weight = weight;

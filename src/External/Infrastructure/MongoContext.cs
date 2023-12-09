@@ -26,5 +26,13 @@ namespace Infrastructure
                 return _database.GetCollection<Client>(nameof(Client).Pluralize());
             }
         }
+
+        public IMongoCollection<PersonalTrainer> PersonalTrainers
+        {
+            get
+            {
+                return _database.GetCollection<PersonalTrainer>(nameof(PersonalTrainer).Pluralize());
+            }
+        }
     }
 }

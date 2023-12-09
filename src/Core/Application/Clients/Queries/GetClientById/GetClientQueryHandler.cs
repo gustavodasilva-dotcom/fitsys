@@ -12,9 +12,7 @@ internal sealed class GetClientQueryHandler(IClientsRepository clientsRepository
 
     public async Task<Client> Handle(GetClientByIdQuery request, CancellationToken cancellationToken)
     {
-        var client = await _clientsRepository.Get(p => p.uid == request.UID) ??
+        return await _clientsRepository.Get(p => p.uid == request.UID) ??
             throw new ClientNotFoundException(request.UID.ToString());
-
-        return client;
     }
 }

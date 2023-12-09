@@ -4,8 +4,8 @@ class helperDetailsPage {
     constructor(options) {
         return (async () => {
             this._normalizeOptions(options);
-            await this._getDetailsData();
             this._setupEvents();
+            await this._getDetailsData();
         })();
     }
     $ = function (elm) {

@@ -18,12 +18,12 @@ internal sealed class UpdateClientCommandHandler(IClientsRepository clientsRepos
         client.SetWeight(request.Weight);
         client.SetHeight(request.Height);
 
-        var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-
         client.person.SetName(request.Name);
         client.person.SetBirthday(request.Birthday);
         client.person.SetProfile(request.Profile);
 
+        string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+        
         client.user.SetEmail(request.Email);
         client.user.SetPassword(request.Password);
         

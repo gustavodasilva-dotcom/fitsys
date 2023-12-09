@@ -14,9 +14,7 @@ public sealed class Person
     }
 
     public string name { get; private set; }
-
     public DateTime birthday { get; private set; }
-
     public string? profile { get; private set; }
 
     public void SetName(string name) => this.name = name;

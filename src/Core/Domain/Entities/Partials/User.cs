@@ -13,7 +13,6 @@ public sealed class User
     }
 
     public string email { get; private set; }
-
     public string password { get; private set; }
 
     public void SetEmail(string email) => this.email = email;
