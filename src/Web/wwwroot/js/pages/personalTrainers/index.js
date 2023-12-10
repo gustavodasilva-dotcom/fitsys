@@ -22,12 +22,7 @@ var personalTrainersIndexPage = function () {
                     {
                         caption: "Shift(s)",
                         getFieldValue: (data) => {
-                            const shifts = data.shifts.map((shift) => {
-                                const values = Object.keys(helperConstants.enums.shifts.values);
-                                return values[shift];
-                            });
-
-                            return shifts.join(' / ');
+                            return data.shifts.map(shift => shift.value).join(' / ');
                         }
                     }
                 ],

@@ -7,10 +7,12 @@ using MongoDB.Bson;
 
 namespace Application.PersonalTrainers.Commands.CreatePersonalTrainer;
 
-internal sealed class CreateClientCommandHandler(IPersonalTrainersRepository personalTrainersRepository) :
+internal sealed class CreateClientCommandHandler(IPersonalTrainersRepository personalTrainersRepository,
+                                                 IConstantsRepository constantsRepository) :
     IRequestHandler<CreatePersonalTrainerCommand, ObjectId>
 {
     private readonly IPersonalTrainersRepository _personalTrainersRepository = personalTrainersRepository;
+    private readonly IConstantsRepository _constantsRepository = constantsRepository;
 
     public async Task<ObjectId> Handle(CreatePersonalTrainerCommand request, CancellationToken cancellationToken)
     {
@@ -27,7 +29,15 @@ internal sealed class CreateClientCommandHandler(IPersonalTrainersRepository per
         Person person = new(request.Name, request.Birthday, request.Profile);
         User user = new(request.Email, passwordHash);
 
-        personal = new PersonalTrainer(id, uid, request.Shifts, person, user);
+        List<ConstantValue> shifts = [];
+
+        foreach (var shiftId in request.Shifts)
+        {
+            Constant constant = await _constantsRepository.Get(e => e.values.Any(e => e.uid == shiftId));
+            shifts.Add(constant.values.FirstOrDefault(c => c.uid == shiftId)!);
+        }
+
+        personal = new PersonalTrainer(id, uid, shifts, person, user);
 
         await _personalTrainersRepository.Save(personal);
 

@@ -70,7 +70,7 @@ var personalTrainersDetailsPage = function () {
                         isValid: true
                     };
                 },
-                setupEvents: (handler) => {
+                setupEvents: async (handler) => {
                     const _upload = async (event) => {
                         const $input = $(event.currentTarget);
                         const handler = $input.data('handler');
@@ -111,7 +111,10 @@ var personalTrainersDetailsPage = function () {
 
                     handler.$("#iptUploadUserProfile").data('handler', handler).change(_upload);
                     
-                    helperConstants.enums.shifts.loadToCombo(handler.$("#sltPersonalShift"));
+                    await helperConstantValues.loadConstants({
+                        value: helperConstantValues.enums.shifts,
+                        $element: handler.$("#sltPersonalShift")
+                    });
                 },
                 fillFormInputs: (handler) => {
                     const model = handler.model;
@@ -119,7 +122,7 @@ var personalTrainersDetailsPage = function () {
                     handler.$("#iptPersonalName").val(model.person.name);
                     handler.$("#iptPersonalEmail").val(model.user.email);
                     handler.$("#iptPersonalBirthday").val((model.person.birthday ?? "").JsonDateToInputDate());
-                    handler.$("#sltPersonalShift").val(model.shifts).change();
+                    handler.$("#sltPersonalShift").val(model.shifts.map(shift => shift.uid)).change();
 
                     if (model.person.profile) {
                         handler.profile = model.person.profile;
@@ -130,7 +133,7 @@ var personalTrainersDetailsPage = function () {
                 getFormValues: (handler) => {
                     const model = handler.model;
 
-                    model.shifts = handler.$("#sltPersonalShift").val().map((value) => +value);
+                    model.shifts = handler.$("#sltPersonalShift").val();
                     model.person.name = handler.$("#iptPersonalName").val();
                     model.person.birthday = handler.$("#iptPersonalBirthday").val();
                     model.person.profile = handler.profile;

@@ -7,5 +7,6 @@ namespace Domain.Abstractions
     {
         IMongoCollection<Client> Clients { get; }
         IMongoCollection<PersonalTrainer> PersonalTrainers { get; }
+        IMongoCollection<Constant> Constants { get; }
     }
 }

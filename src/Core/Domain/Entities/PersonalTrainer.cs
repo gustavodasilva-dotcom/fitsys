@@ -1,5 +1,4 @@
 using Domain.Entities.Partials;
-using Domain.Enums;
 using Domain.Primitives;
 using MongoDB.Bson;
 
@@ -7,7 +6,7 @@ namespace Domain.Entities;
 
 public sealed class PersonalTrainer : Entity
 {
-    public PersonalTrainer(ObjectId id, Guid uid, List<ShiftsEnum> shifts, Person person, User user)
+    public PersonalTrainer(ObjectId id, Guid uid, List<ConstantValue> shifts, Person person, User user)
         : base(id, uid)
     {
         this.shifts = shifts;
@@ -19,9 +18,9 @@ public sealed class PersonalTrainer : Entity
     {
     }
 
-    public List<ShiftsEnum> shifts { get; private set; }
+    public List<ConstantValue> shifts { get; private set; }
     public Person person { get; private set; }
     public User user { get; private set; }
 
-    public void SetShift(ShiftsEnum shift) => this.shifts.Add(shift);
+    public void SetShift(ConstantValue shift) => this.shifts.Add(shift);
 }
