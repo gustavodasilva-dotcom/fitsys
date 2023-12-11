@@ -3,6 +3,10 @@ using Application.Clients.Commands.UpdateClient;
 using Application.Clients.Queries.GetAllClients;
 using Application.Clients.Queries.GetClientById;
 using Application.Constants.Queries.GetConstantByEnum;
+using Application.Exercises.Commands.CreateExercise;
+using Application.Exercises.Commands.UpdateExercise;
+using Application.Exercises.Queries.GetAllExercises;
+using Application.Exercises.Queries.GetExerciseById;
 using Application.Files.Commands.UploadFile;
 using Application.PersonalTrainers.Commands.CreatePersonalTrainer;
 using Application.PersonalTrainers.Commands.UpdatePersonalTrainer;
@@ -22,6 +26,7 @@ builder.Services.AddSingleton(typeof(IMongoContext), typeof(MongoContext));
 builder.Services.AddSingleton(typeof(IConstantsRepository), typeof(ConstantsRepository));
 builder.Services.AddSingleton(typeof(IClientsRepository), typeof(ClientsRepository));
 builder.Services.AddSingleton(typeof(IPersonalTrainersRepository), typeof(PersonalTrainersRepository));
+builder.Services.AddSingleton(typeof(IExercisesRepository), typeof(ExercisesRepository));
 
 builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblies(
     typeof(GetAllClientsQuery).Assembly,
@@ -33,7 +38,11 @@ builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblies(
     typeof(GetPersonalTrainerByIdQuery).Assembly,
     typeof(CreatePersonalTrainerCommand).Assembly,
     typeof(UpdatePersonalTrainerCommand).Assembly,
-    typeof(GetConstantByEnumQuery).Assembly
+    typeof(GetConstantByEnumQuery).Assembly,
+    typeof(GetAllExercisesQuery).Assembly,
+    typeof(GetExerciseById).Assembly,
+    typeof(CreateExerciseCommand).Assembly,
+    typeof(UpdateExerciseCommand).Assembly
     ));
 
 var connectionString = builder.Configuration["MongoDB:ConnectionString"];

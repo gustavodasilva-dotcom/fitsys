@@ -42,5 +42,13 @@ namespace Infrastructure
                 return _database.GetCollection<Constant>(nameof(Constant).Pluralize());
             }
         }
+
+        public IMongoCollection<Exercise> Exercises
+        {
+            get
+            {
+                return _database.GetCollection<Exercise>(nameof(Exercise).Pluralize());
+            }
+        }
     }
 }

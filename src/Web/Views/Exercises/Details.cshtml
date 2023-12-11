@@ -1,0 +1,109 @@
+@{
+    ViewData["Title"] = "Exercises";
+}
+
+<style>
+    .stepsEditor {
+        height: 180px;
+    }
+    .carousel-item img {
+        object-fit: cover;
+        height: 450px;
+        width: 900px;
+    }
+</style>
+
+<section class="section exercises-details">
+    <div class="row mb-3">
+        <div class="col-lg-6">
+            <button type="submit" class="btn btn-primary" id="btnSubmit">Submit</button>
+            <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+        </div>
+    </div>
+    <ul class="nav nav-pills" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="pills-main-tab" data-bs-toggle="pill" data-bs-target="#pills-main" type="button" role="tab" aria-controls="pills-main" aria-selected="true">Main</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-images-tab" data-bs-toggle="pill" data-bs-target="#pills-images" type="button" role="tab" aria-controls="pills-images" aria-selected="false">Images</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-main" role="tabpanel" aria-labelledby="pills-main-tab">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <form method="post" action="/" class="row g-3 mt-4">
+                                        <div class="row mb-3">
+                                            <label class="col-sm-2 col-form-label">Exercise Name</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="iptExerciseName" class="form-control" id="iptExerciseName">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label class="col-sm-2 col-form-label">Muscle Groups</label>
+                                            <div class="col-sm-10">
+                                                <select class="form-select" multiple id="sltExerciseMuscleGroups" aria-label="Muscle groups"></select>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="container mt-4">
+                                        <div class="stepsEditor"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="pills-images" role="tabpanel" aria-labelledby="pills-images-tab">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body pt-4 d-flex flex-column align-items-center">
+                            <div id="exerciseImages" class="carousel slide" data-ride="carousel">
+                                <ol class="carousel-indicators"></ol>
+                                <div class="carousel-inner"></div>
+                                <a class="carousel-control-prev" href="#exerciseImages" role="button" data-slide="prev">
+                                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                  <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#exerciseImages" role="button" data-slide="next">
+                                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                  <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                            <div class="row mb-3 mt-3">
+                                <div class="col-sm-12">
+                                    <input class="form-control" type="file" id="iptUploadExerciseImage">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        $.when(
+            $.getScript("/js/pages/exercises/details.js"),
+            $.Deferred(function (deferred) {
+                $(deferred.resolve);
+            })
+        ).done(function () {
+            exercisesDetailsPage.init({
+                wrapper: ".exercises-details"
+            });
+        });
+    </script>
+}
