@@ -4,7 +4,7 @@ class helperDetailsPage {
     constructor(options) {
         return (async () => {
             this._normalizeOptions(options);
-            this._setupEvents();
+            await this._setupEvents();
             await this._getDetailsData();
         })();
     }
@@ -125,8 +125,8 @@ class helperDetailsPage {
 
         callback(this);
     }
-    _setupEvents = function () {
-        this.options.setupEvents(this);
+    _setupEvents = async function () {
+        await this.options.setupEvents(this);
         this.$(this.options.footer.submitButton).click((e) => { this._sendForm(e) });
     }
 };

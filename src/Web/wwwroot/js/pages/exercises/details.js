@@ -27,10 +27,12 @@ var exercisesDetailsPage = function () {
                 },
                 defaultValues: {
                     name: null,
+                    image: null,
                     steps: {
                         ops: []
                     },
-                    muscleGroups: []
+                    muscleGroups: [],
+                    gymEquipments: []
                 },
                 validate: (handler) => {
                     
@@ -49,7 +51,7 @@ var exercisesDetailsPage = function () {
                             var reader = new FileReader();
 
                             reader.onload = function (e) {
-                                handler.$("#imgUserProfile").attr('src', e.target.result).fadeIn('slow');
+                                handler.$("#imgExerciseImage").attr('src', e.target.result).fadeIn('slow');
                             };
                             reader.readAsDataURL(file);
 
@@ -69,50 +71,53 @@ var exercisesDetailsPage = function () {
                                 helperPopUp.dialog.warning(helperConstants.messages.unexpected, result.message);
                                 return;
                             }
-                            debugger
-                            const pathSplit = result.data.split('/');
+                            
+                            const pathSplit = helperFunctions.normalizePath(result.data).split('/');
                             const basePath = pathSplit.slice(pathSplit.length - 2).join('/');
 
-                            const $li = $('<li>').attr('data-target', '#exerciseImages')
-                                .attr('data-slide-to', '0')
-                                .addClass('active');
-                            handler.$(".carousel-indicators").append($li);
-
-                            const $img = $('<img>').addClass('d-block')
-                                .attr('src', helperFunctions.getBaseRoute(basePath));
-
-                            const $div = $('<div>').addClass('carousel-item active')
-                            $div.append($img);
-
-                            handler.$(".carousel-inner").append($div);
+                            handler.image = basePath;
                         }
                     };
-                    
+
                     handler.$("#iptUploadExerciseImage").data('handler', handler).change(_upload);
 
-                    this.$editor = new Quill(".stepsEditor", {
+                    this.$editor = new Quill("#stepsEditor", {
                         placeholder: "Type the exercise steps...",
                         theme: "snow"
                     });
 
                     await helperConstantValues.loadConstants({
-                        value: helperConstantValues.enums.muscle,
+                        value: helperConstantValues.enums.muscleGroups,
                         $element: handler.$("#sltExerciseMuscleGroups")
+                    });
+
+                    await helperConstantValues.loadConstants({
+                        value: helperConstantValues.enums.gymEquipments,
+                        $element: handler.$("#sltExerciseGymEquipments")
                     });
                 },
                 fillFormInputs: (handler) => {
                     const model = handler.model;
                     
                     handler.$("#iptExerciseName").val(model.name);
-                    this.$editor.setContents(model.steps);
                     handler.$("#sltExerciseMuscleGroups").val(model.muscleGroups.map(group => group.uid)).change();
+                    handler.$("#sltExerciseGymEquipments").val(model.gymEquipments.map(equip => equip.uid)).change();
+                    this.$editor.setContents(model.steps);
+
+                    if (model.image) {
+                        handler.image = model.image;
+                        const imageUrl = helperFunctions.getBaseRoute(handler.image);
+                        handler.$("#imgExerciseImage").attr('src', imageUrl).fadeIn('slow');
+                    }
                 },
                 getFormValues: (handler) => {
                     const model = handler.model;
                     
                     model.name = handler.$("#iptExerciseName").val();
+                    model.image = handler.image;
                     model.steps = this.$editor.getContents();
                     model.muscleGroups = handler.$("#sltExerciseMuscleGroups").val();
+                    model.gymEquipments = handler.$("#sltExerciseGymEquipments").val();
 
                     return model;
                 }

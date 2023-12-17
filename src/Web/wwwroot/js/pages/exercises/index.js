@@ -18,6 +18,12 @@ var exercisesIndexPage = function () {
                         getFieldValue: (data) => {
                             return data.muscleGroups.map(group => group.description).join(' / ');
                         }
+                    },
+                    {
+                        caption: "Gym Equipment(s)",
+                        getFieldValue: (data) => {
+                            return data.gymEquipments.map(equip => equip.description).join(' / ');
+                        }
                     }
                 ],
                 actions: {

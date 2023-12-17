@@ -1,6 +1,7 @@
 using Application.Exceptions;
 using Domain.Abstractions;
 using Domain.Entities;
+using Domain.Enums;
 using MediatR;
 
 namespace Application.Exercises.Commands.UpdateExercise;
@@ -18,16 +19,21 @@ internal sealed class UpdateExerciseCommandHandler(IExercisesRepository exercise
             throw new ExerciseNotFoundException(request.UID.ToString());
 
         exercise.SetName(request.Name);
+        exercise.SetImage(request.Image);
         exercise.SetSteps(request.Steps);
 
         exercise.muscleGroups.Clear();
-
-        List<ConstantValue> muscleGroups = [];
+        exercise.gymEquipments.Clear();
 
         foreach (var muscleGroupId in request.MuscleGroups)
         {
-            Constant constant = await _constantsRepository.Get(e => e.values.Any(e => e.uid == muscleGroupId));
+            Constant constant = await _constantsRepository.Get(e => e.key == (int)ConstantsEnum.MuscleGroups);
             exercise.SetMuscleGroup(constant.values.FirstOrDefault(c => c.uid == muscleGroupId)!);
+        }
+        foreach (var equipmentId in request.GymEquipments)
+        {
+            Constant constant = await _constantsRepository.Get(e => e.key == (int)ConstantsEnum.GymEquipments);
+            exercise.SetGymEquipment(constant.values.FirstOrDefault(c => c.uid == equipmentId)!);
         }
 
         await _exercisesRepository.Update(exercise);

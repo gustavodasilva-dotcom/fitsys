@@ -75,6 +75,7 @@ public class ExercisesController(IMediator mediator) : Controller
         {
             result.data = await _mediator.Send(new CreateExerciseCommand(
                 Name: data.name,
+                Image: data.image,
                 Steps: new QuillEditor()
                 {
                     ops = data.steps.ops.Select(op => new Op()
@@ -86,7 +87,8 @@ public class ExercisesController(IMediator mediator) : Controller
                         } : null
                     }).ToList()
                 },
-                MuscleGroups: data.muscleGroups
+                MuscleGroups: data.muscleGroups,
+                GymEquipments: data.gymEquipments
             ));
         }
         catch (Exception e)
@@ -109,6 +111,7 @@ public class ExercisesController(IMediator mediator) : Controller
             result.data = await _mediator.Send(new UpdateExerciseCommand(
                 UID: UID,
                 Name: data.name,
+                Image: data.image,
                 Steps: new QuillEditor()
                 {
                     ops = data.steps.ops.Select(op => new Op()
@@ -120,7 +123,8 @@ public class ExercisesController(IMediator mediator) : Controller
                         } : null
                     }).ToList()
                 },
-                MuscleGroups: data.muscleGroups
+                MuscleGroups: data.muscleGroups,
+                GymEquipments: data.gymEquipments
             ));
         }
         catch (Exception e)

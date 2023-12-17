@@ -121,6 +121,38 @@ public static class Runner
                 }
             }
             collection.ReplaceOne(c => c.id.Equals(constant.id), constant);
+
+            constant = collection.FindSync(c => c.key == (int)ConstantsEnum.GymEquipments).FirstOrDefault();
+            if (constant == null)
+            {
+                constant = new(
+                    id: ObjectId.GenerateNewId(),
+                    uid: Guid.NewGuid(),
+                    key: (int)ConstantsEnum.GymEquipments,
+                    name: Enum.GetName(ConstantsEnum.GymEquipments)!
+                );
+                await collection.InsertOneAsync(constant);
+            }
+
+            Type gymEquipments = typeof(GymEquipmentsEnum);
+            foreach (var equipment in gymEquipments.GetEnumValues())
+            {
+                MemberInfo info = gymEquipments.GetMember(equipment.ToString()!).First();
+                var name = info?.GetCustomAttribute<DisplayAttribute>()?.Name ?? info!.Name;
+
+                ConstantValue? value = constant.values.FirstOrDefault(c => c.value == (int)equipment);
+                if (value == null)
+                {
+                    value = new ConstantValue(
+                        id: ObjectId.GenerateNewId(),
+                        uid: Guid.NewGuid(),
+                        value: (int)equipment,
+                        description: name
+                    );
+                    constant.values.Add(value);
+                }
+            }
+            collection.ReplaceOne(c => c.id.Equals(constant.id), constant);
         }
         catch (Exception)
         {

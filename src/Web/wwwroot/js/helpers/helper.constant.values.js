@@ -5,7 +5,8 @@ const helperConstantValues = function () {
         enums: {
             roles: 0,
             shifts: 1,
-            muscle: 2
+            muscleGroups: 2,
+            gymEquipments: 3
         },
         loadConstants: async function (options) {
             const defaultValues = {

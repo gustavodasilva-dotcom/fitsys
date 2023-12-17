@@ -7,6 +7,9 @@ const helperFunctions = function () {
                 window.location.origin,
                 route
             ].join('/');
+        },
+        normalizePath: function (path) {
+            return path.replace(/\\/g, '/');
         }
     };
 }();
