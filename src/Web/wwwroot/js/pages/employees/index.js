@@ -1,34 +1,40 @@
 "use strict";
 
-var exercisesIndexPage = function () {
+var employeesIndexPage = function () {
     return {
         init: function (options) {
-            
+
             this.$grid = new helperDataTable({
                 ...options,
                 columns: [
                     {
                         caption: "Name",
                         getFieldValue: (data) => {
-                            return data.name;
+                            return data.person.name;
                         }
                     },
                     {
-                        caption: "Muscle Group(s)",
+                        caption: "Email",
                         getFieldValue: (data) => {
-                            return data.muscleGroups.map(group => group.description).join(' / ');
+                            return data.user.email;
+                        }
+                    },
+                    {
+                        caption: "Shift(s)",
+                        getFieldValue: (data) => {
+                            return data.shifts.map(shift => shift.description).join(' / ');
                         }
                     }
                 ],
                 actions: {
                     get: {
-                        route: "Exercises/GetAll"
+                        route: "Employees/GetAll"
                     },
                     post: {
-                        route: "Exercises/Details"
+                        route: "Employees/Details"
                     },
                     put: {
-                        route: "Exercises/Details",
+                        route: "Employees/Details",
                         param: "UID"
                     }
                 }

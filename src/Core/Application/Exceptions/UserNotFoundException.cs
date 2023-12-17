@@ -2,8 +2,8 @@
 
 namespace Application.Exceptions
 {
-    public sealed class UserNotFoundException(string name)
-        : BaseException($"User {name} not found")
+    public sealed class UserNotFoundException(string email)
+        : BaseException($"User not found with the email {email}. Please, check your credentials.")
     {
     }
 }

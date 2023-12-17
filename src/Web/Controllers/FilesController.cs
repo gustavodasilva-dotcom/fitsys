@@ -1,5 +1,6 @@
 ﻿using Application.Files.Commands.UploadFile;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Web.Models.Global;
@@ -10,6 +11,7 @@ public class FilesController(IMediator mediator) : Controller
 {
     private readonly IMediator _mediator = mediator;
 
+    [Authorize]
     [HttpPost]
     public async Task<JsonResult> Upload(IFormCollection form)
     {

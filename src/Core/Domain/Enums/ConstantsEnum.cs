@@ -2,6 +2,7 @@ namespace Domain.Enums;
 
 public enum ConstantsEnum
 {
+    Roles = 0,
     Shifts = 1,
-    Muscle = 2
+    MuscleGroups = 2
 }

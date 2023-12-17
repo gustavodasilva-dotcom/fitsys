@@ -27,11 +27,11 @@ namespace Infrastructure
             }
         }
 
-        public IMongoCollection<PersonalTrainer> PersonalTrainers
+        public IMongoCollection<Employee> Employees
         {
             get
             {
-                return _database.GetCollection<PersonalTrainer>(nameof(PersonalTrainer).Pluralize());
+                return _database.GetCollection<Employee>(nameof(Employee).Pluralize());
             }
         }
 

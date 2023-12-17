@@ -1,17 +1,17 @@
-﻿using Application.Clients.Commands.CreateClient;
-using Application.Clients.Commands.UpdateClient;
-using Application.Clients.Queries.GetAllClients;
-using Application.Clients.Queries.GetClientById;
+﻿using System.Net;
+using Application.Employees.Commands.CreateEmployee;
+using Application.Employees.Commands.UpdateEmployee;
+using Application.Employees.Queries.GetAllEmployees;
+using Application.Employees.Queries.GetEmployeeById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 using Web.Models.Entities;
 using Web.Models.Global;
 
 namespace Web.Controllers;
 
-public class ClientsController(IMediator mediator) : Controller
+public class EmployeesController(IMediator mediator) : Controller
 {
     private readonly IMediator _mediator = mediator;
 
@@ -35,7 +35,7 @@ public class ClientsController(IMediator mediator) : Controller
 
         try
         {
-            result.data = await _mediator.Send(new GetAllClientsQuery());
+            result.data = await _mediator.Send(new GetAllEmployeesQuery());
         }
         catch (Exception e)
         {
@@ -54,7 +54,7 @@ public class ClientsController(IMediator mediator) : Controller
 
         try
         {
-            result.data = await _mediator.Send(new GetClientByIdQuery(UID));
+            result.data = await _mediator.Send(new GetEmployeeByIdQuery(UID));
         }
         catch (Exception e)
         {
@@ -67,20 +67,19 @@ public class ClientsController(IMediator mediator) : Controller
 
     [Authorize]
     [HttpPost]
-    public async Task<JsonResult> Insert([FromBody] ClientInputModel data)
+    public async Task<JsonResult> Insert([FromBody] EmployeeInputModel data)
     {
         JsonResultViewModel result = new();
 
         try
         {
-            result.data = await _mediator.Send(new CreateClientCommand(
+            result.data = await _mediator.Send(new CreateEmployeeCommand(
+                Shifts: data.shifts,
                 Name: data.person.name,
-                Email: data.user.email,
-                Password: data.user.password,
-                Weight: data.weight,
-                Height: data.height,
                 Birthday: data.person.birthday,
-                Profile: data.person.profile
+                Profile: data.person.profile,
+                Email: data.user.email,
+                Password: data.user.password
             ));
         }
         catch (Exception e)
@@ -94,21 +93,20 @@ public class ClientsController(IMediator mediator) : Controller
 
     [Authorize]
     [HttpPut]
-    public async Task<JsonResult> Update(Guid UID, [FromBody] ClientInputModel data)
+    public async Task<JsonResult> Update(Guid UID, [FromBody] EmployeeInputModel data)
     {
         JsonResultViewModel result = new();
 
         try
         {
-            result.data = await _mediator.Send(new UpdateClientCommand(
+            result.data = await _mediator.Send(new UpdateEmployeeCommand(
                 UID: UID,
+                Shifts: data.shifts,
                 Name: data.person.name,
-                Email: data.user.email,
-                Password: data.user.password,
-                Weight: data.weight,
-                Height: data.height,
                 Birthday: data.person.birthday,
-                Profile: data.person.profile
+                Profile: data.person.profile,
+                Email: data.user.email,
+                Password: data.user.password
             ));
         }
         catch (Exception e)

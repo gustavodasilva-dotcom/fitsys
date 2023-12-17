@@ -5,15 +5,17 @@ namespace Domain.Entities;
 
 public sealed class ConstantValue : Entity
 {
-    public ConstantValue(ObjectId id, Guid uid, string value)
+    public ConstantValue(ObjectId id, Guid uid, int value, string description)
         : base(id, uid)
     {
         this.value = value;
+        this.description = description;
     }
 
     private ConstantValue()
     {
     }
 
-    public string value { get; private set; }
+    public int value { get; private set; }
+    public string description { get; private set; }
 }

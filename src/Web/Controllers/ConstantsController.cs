@@ -2,6 +2,7 @@ using System.Net;
 using Application.Constants.Queries.GetConstantByEnum;
 using Domain.Enums;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models.Global;
 
@@ -11,6 +12,7 @@ public class ConstantsController(IMediator mediator) : Controller
 {
     private readonly IMediator _mediator = mediator;
 
+    [Authorize]
     [HttpGet]
     public async Task<JsonResult> Get(ConstantsEnum Constant)
     {

@@ -5,6 +5,7 @@ using Application.Exercises.Queries.GetAllExercises;
 using Application.Exercises.Queries.GetExerciseById;
 using Domain.Entities.Partials;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models.Global;
 
@@ -14,16 +15,19 @@ public class ExercisesController(IMediator mediator) : Controller
 {
     private readonly IMediator _mediator = mediator;
 
+    [Authorize]
     public IActionResult Index()
     {
         return View();
     }
 
+    [Authorize]
     public IActionResult Details()
     {
         return View();
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<JsonResult> GetAll()
     {
@@ -42,6 +46,7 @@ public class ExercisesController(IMediator mediator) : Controller
         return Json(result);
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<JsonResult> Get(Guid UID)
     {
@@ -60,6 +65,7 @@ public class ExercisesController(IMediator mediator) : Controller
         return Json(result);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<JsonResult> Insert([FromBody] Models.Entities.ExerciseInputModel data)
     {
@@ -92,6 +98,7 @@ public class ExercisesController(IMediator mediator) : Controller
         return Json(result);
     }
 
+    [Authorize]
     [HttpPut]
     public async Task<JsonResult> Update(Guid UID, [FromBody] Models.Entities.ExerciseInputModel data)
     {

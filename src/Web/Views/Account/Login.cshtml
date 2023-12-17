@@ -49,6 +49,10 @@
                                         <h5 class="card-title text-center pb-0 fs-4">Login to FitSys</h5>
                                     </div>
                                     <form method="post" action="/Account/Login" class="row g-3 needs-validation" novalidate>
+                                        @if (ViewBag.Message != null)
+                                        {
+                                            <div class="alert alert-danger fade show">@ViewBag.Message</div>
+                                        }
                                         <div class="col-12">
                                             <label for="email" class="form-label">Email</label>
                                             <div class="input-group has-validation">
@@ -63,7 +67,7 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
+                                                <input class="form-check-input" type="checkbox" name="rememberMe" value="true" id="rememberMe">
                                                 <label class="form-check-label" for="rememberMe">Remember me</label>
                                             </div>
                                         </div>

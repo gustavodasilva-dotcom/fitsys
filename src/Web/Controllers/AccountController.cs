@@ -1,53 +1,60 @@
-﻿using MediatR;
+﻿using Application.Accounts.Commands.ExecuteLogin;
+using MediatR;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
-namespace Web.Controllers
+namespace Web.Controllers;
+
+public class AccountController(IMediator mediator) : Controller
 {
-    public class AccountController(IMediator mediator) : Controller
+    private readonly IMediator _mediator = mediator;
+
+    public IActionResult Login()
     {
-        private readonly IMediator _mediator = mediator;
+        return View();
+    }
 
-        public IActionResult Login()
+    public async Task<IActionResult> Logout()
+    {
+        try
         {
-            return View();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
-
-        public IActionResult Register()
+        catch (Exception e)
         {
-            return View();
+            ViewBag.Message = e.Message;
         }
+        return RedirectToAction("Login");
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> Login(string email, string password)
+    [HttpPost]
+    public async Task<IActionResult> Login(string email, string password, bool rememberMe)
+    {
+        try
         {
-            try
-            {
-                // var user = await _mediator.Send(new GetUserByEmailQuery(email));
+            var claims = await _mediator.Send(new ExecuteLoginCommand(email, password));
+            
+            var claimsIdentity = new ClaimsIdentity(
+                claims,
+                CookieAuthenticationDefaults.AuthenticationScheme);
 
-                // if (!BCrypt.Net.BCrypt.Verify(password, user.user.password))
-                //     throw new Exception("Senha incorreta");
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                new AuthenticationProperties
+                {
+                    IsPersistent = rememberMe,
+                    ExpiresUtc = DateTime.UtcNow.AddDays(2)
+                });
 
-                return Redirect("/Home/Index");
-            }
-            catch (Exception e)
-            {
-                ViewBag.Message = e.Message;
-            }
-            return View();
+            return Redirect("/Home/Index");
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Register(string name, string email, string password)
+        catch (Exception e)
         {
-            try
-            {
-                //await _mediator.Send(new CreateUserCommand(name, email, password));
-            }
-            catch (Exception e)
-            {
-                ViewBag.Message = e.Message;
-            }
-            return View();
+            ViewBag.Message = e.Message;
         }
+        return View();
     }
 }

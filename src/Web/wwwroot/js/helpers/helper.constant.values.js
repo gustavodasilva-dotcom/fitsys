@@ -3,6 +3,7 @@
 const helperConstantValues = function () {
     return {
         enums: {
+            roles: 0,
             shifts: 1,
             muscle: 2
         },
@@ -37,7 +38,7 @@ const helperConstantValues = function () {
 
             data.values.forEach((obj) => {
                 const $option = $('<option>', $element);
-                $option.val(obj.uid).text(obj.value);
+                $option.val(obj.uid).text(obj.description);
 
                 $element.append($option);
             });

@@ -1,3 +1,4 @@
+using Application.Accounts.Commands.ExecuteLogin;
 using Application.Clients.Commands.CreateClient;
 using Application.Clients.Commands.UpdateClient;
 using Application.Clients.Queries.GetAllClients;
@@ -8,36 +9,47 @@ using Application.Exercises.Commands.UpdateExercise;
 using Application.Exercises.Queries.GetAllExercises;
 using Application.Exercises.Queries.GetExerciseById;
 using Application.Files.Commands.UploadFile;
-using Application.PersonalTrainers.Commands.CreatePersonalTrainer;
-using Application.PersonalTrainers.Commands.UpdatePersonalTrainer;
-using Application.PersonalTrainers.Queries.GetAllPersonalTrainers;
-using Application.PersonalTrainers.Queries.GetPersonalTrainerById;
+using Application.Employees.Commands.CreateEmployee;
+using Application.Employees.Commands.UpdateEmployee;
+using Application.Employees.Queries.GetAllEmployees;
+using Application.Employees.Queries.GetEmployeeById;
 using Domain.Abstractions;
 using Infrastructure;
 using Infrastructure.Repositories;
 using Infrastructure.Seeders;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+        options.SlidingExpiration = true;
+        options.LoginPath = "/Account/Login";
+        options.AccessDeniedPath = "/Account/Forbidden/";
+    });
+
 builder.Services.AddSingleton(typeof(IMongoContext), typeof(MongoContext));
 builder.Services.AddSingleton(typeof(IConstantsRepository), typeof(ConstantsRepository));
 builder.Services.AddSingleton(typeof(IClientsRepository), typeof(ClientsRepository));
-builder.Services.AddSingleton(typeof(IPersonalTrainersRepository), typeof(PersonalTrainersRepository));
+builder.Services.AddSingleton(typeof(IEmployeesRepository), typeof(EmployeesRepository));
 builder.Services.AddSingleton(typeof(IExercisesRepository), typeof(ExercisesRepository));
 
 builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblies(
+    typeof(ExecuteLoginCommand).Assembly,
     typeof(GetAllClientsQuery).Assembly,
     typeof(CreateClientCommand).Assembly,
     typeof(GetClientByIdQuery).Assembly,
     typeof(UploadFileCommand).Assembly,
     typeof(UpdateClientCommand).Assembly,
-    typeof(GetAllPersonalTrainersQuery).Assembly,
-    typeof(GetPersonalTrainerByIdQuery).Assembly,
-    typeof(CreatePersonalTrainerCommand).Assembly,
-    typeof(UpdatePersonalTrainerCommand).Assembly,
+    typeof(GetAllEmployeesQuery).Assembly,
+    typeof(GetEmployeeByIdQuery).Assembly,
+    typeof(CreateEmployeeCommand).Assembly,
+    typeof(UpdateEmployeeCommand).Assembly,
     typeof(GetConstantByEnumQuery).Assembly,
     typeof(GetAllExercisesQuery).Assembly,
     typeof(GetExerciseById).Assembly,
@@ -61,9 +73,14 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.Strict
+});
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
