@@ -1,0 +1,55 @@
+﻿<div class="modal fade" id="modalWorkoutRoutine" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit workout routine</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/" class="row g-3 mt-2">
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label class="form-label">Workout Name</label>
+                            <input type="text" name="iptWorkoutRoutineName" class="form-control" id="iptWorkoutRoutineName">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <label class="form-label">Exercise</label>
+                            <select class="form-select" id="sltWorkoutRoutineExercise" aria-label="Exercise"></select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Sets</label>
+                            <input type="number" name="iptWorkoutRoutineSets" class="form-control" id="iptWorkoutRoutineSets">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Reps</label>
+                            <input type="number" name="iptWorkoutRoutineReps" class="form-control" id="iptWorkoutRoutineReps">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-primary" id="btnSaveWorkout">Save</button>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <table class="table datatable" id="tableWorkoutRoutines">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Workout</th>
+                                    <th>Sets</th>
+                                    <th>Reps</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnSaveChanges">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

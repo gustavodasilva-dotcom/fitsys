@@ -29,5 +29,11 @@ public enum MuscleGroupsEnum
     Trapezius = 7,
 
     [Display(Name = "Latissimus Dorsi")]
-    LatissimusDorsi = 8
+    LatissimusDorsi = 8,
+
+    [Display(Name = "Chest")]
+    Chest = 9,
+
+    [Display(Name = "Shoulders")]
+    Shoulders = 10
 }

@@ -1,6 +1,7 @@
 using Application.Exceptions;
 using Domain.Abstractions;
 using Domain.Entities;
+using Domain.Entities.Partials;
 using Domain.Enums;
 using MediatR;
 
@@ -20,7 +21,17 @@ internal sealed class UpdateExerciseCommandHandler(IExercisesRepository exercise
 
         exercise.SetName(request.Name);
         exercise.SetImage(request.Image);
-        exercise.SetSteps(request.Steps);
+        exercise.SetSteps(new QuillEditor()
+        {
+            ops = request.Steps.ops.Select(op => new Op()
+            {
+                insert = op.insert,
+                attributes = op.attributes != null ? new Attributes()
+                {
+                    list = op.attributes.list
+                } : null
+            }).ToList()
+        });
 
         exercise.muscleGroups.Clear();
         exercise.gymEquipments.Clear();

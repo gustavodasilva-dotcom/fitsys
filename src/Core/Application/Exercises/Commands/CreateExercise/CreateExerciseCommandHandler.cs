@@ -1,6 +1,7 @@
 using Application.Exercises.Commands.CreateExercise;
 using Domain.Abstractions;
 using Domain.Entities;
+using Domain.Entities.Partials;
 using Domain.Enums;
 using MediatR;
 using MongoDB.Bson;
@@ -33,7 +34,17 @@ internal sealed class CreateExerciseCommandHandler(IExercisesRepository exercise
             uid: Guid.NewGuid(),
             name: request.Name,
             image: request.Image,
-            steps: request.Steps,
+            steps: new QuillEditor()
+            {
+                ops = request.Steps.ops.Select(op => new Op()
+                {
+                    insert = op.insert,
+                    attributes = op.attributes != null ? new Attributes()
+                    {
+                        list = op.attributes.list
+                    } : null
+                }).ToList()
+            },
             muscleGroups: muscleGroups,
             gymEquipments: gymEquipments);
 

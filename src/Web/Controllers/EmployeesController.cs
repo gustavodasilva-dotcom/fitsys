@@ -3,10 +3,10 @@ using Application.Employees.Commands.CreateEmployee;
 using Application.Employees.Commands.UpdateEmployee;
 using Application.Employees.Queries.GetAllEmployees;
 using Application.Employees.Queries.GetEmployeeById;
+using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Web.Models.Entities;
 using Web.Models.Global;
 
 namespace Web.Controllers;
@@ -25,6 +25,12 @@ public class EmployeesController(IMediator mediator) : Controller
     public IActionResult Details()
     {
         return View();
+    }
+
+    [Authorize]
+    public IActionResult _modalWorkoutRoutine()
+    {
+        return PartialView();
     }
 
     [Authorize]

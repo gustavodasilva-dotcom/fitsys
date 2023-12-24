@@ -2,42 +2,106 @@
     ViewData["Title"] = "Clients";
 }
 
+<style>
+    #imgUserProfile {
+        object-fit: cover;
+        height: 300px;
+        width: 100%;
+    }
+</style>
+
 <section class="section clients-details">
     <div class="row">
-        <div class="col-lg-8">
-            <div class="card">
-                <div class="card-body">
-                    <form method="post" action="/" class="row g-3 mt-2">
-                        <div class="col-md-6">
-                            <input type="text" name="iptClientName" class="form-control" id="iptClientName" placeholder="Your Name">
-                        </div>
-                        <div class="col-md-6">
-                            <input type="email" name="iptClientEmail" class="form-control" id="iptClientEmail" placeholder="Email">
-                        </div>
-                        <div class="col-md-6">
-                            <input type="number" step="any" name="iptClientWeight" class="form-control" id="iptClientWeight" placeholder="Weight">
-                        </div>
-                        <div class="col-md-6">
-                            <input type="number" step="any" name="iptClientHeight" class="form-control" id="iptClientHeight" placeholder="Height">
-                        </div>
-                        <div class="col-md-6">
-                            <input type="date" name="iptClientBirthday" class="form-control" id="iptClientBirthday" placeholder="Birthday">
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary" id="btnSubmit">Submit</button>
-                            <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
+        <div class="col-xl-4">
             <div class="card">
                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                     <img src="~/img/default-user-profile.jpg" alt="Profile" class="img-thumbnail" id="imgUserProfile">
                     <div class="row mb-3 mt-3">
                         <div class="col-sm-12">
                             <input class="form-control" type="file" id="iptUploadUserProfile">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-8">
+            <div class="card">
+                <div class="card-body pt-3">
+                    <ul class="nav nav-tabs nav-tabs-bordered">
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#client-profile">Profile</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#client-workout-routine">Workout Routine</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content pt-2">
+                        <div class="tab-pane fade show active client-profile" id="client-profile">
+                            <form>
+                                <h5 class="card-title">Profile</h5>
+                                <div class="row mb-3">
+                                    <label for="iptClientName" class="col-md-3 col-lg-2 col-form-label">Name</label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <input type="text" name="iptClientName" class="form-control" id="iptClientName">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="iptClientEmail" class="col-md-3 col-lg-2 col-form-label">Email</label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <input type="email" name="iptClientEmail" class="form-control" id="iptClientEmail">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="iptClientWeight" class="col-md-3 col-lg-2 col-form-label">Weight</label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <input type="number" step="any" name="iptClientWeight" class="form-control" id="iptClientWeight">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="iptClientHeight" class="col-md-3 col-lg-2 col-form-label">Height</label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <input type="number" step="any" name="iptClientHeight" class="form-control" id="iptClientHeight">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="iptClientBirthday" class="col-md-3 col-lg-2 col-form-label">Birthday</label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <input type="date" name="iptClientBirthday" class="form-control" id="iptClientBirthday">
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary" id="btnSubmit">Save</button>
+                                    <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade pt-3" id="client-workout-routine">
+                            <form>
+                                <h5 class="card-title">Workout Routine</h5>
+                                <button type="button" class="btn btn-dark mb-3" id="btnAddWorkout" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Add new workout routine">
+                                    <i class="bi bi-clipboard-plus"></i>
+                                </button>
+                                <div id="cardsContainer"></div>
+                                <div class="card w-50 d-none" id="cardWorkoutRoutine">
+                                    <div class="card-body">
+                                        <h5 class="card-title" id="titleWorkoutName">Untitled workout</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted" id="titleWorkoutAmount">-</h6>
+                                        <p class="card-text">
+                                            <button type="button" class="btn btn-info" id="btnEditWorkout">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger" id="btnDeleteWorkout">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary" id="btnSubmit">Save</button>
+                                    <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

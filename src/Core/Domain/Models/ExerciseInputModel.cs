@@ -1,4 +1,4 @@
-namespace Web.Models.Entities;
+﻿namespace Domain.Models;
 
 public class ExerciseInputModel
 {

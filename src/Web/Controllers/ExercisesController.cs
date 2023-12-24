@@ -67,7 +67,7 @@ public class ExercisesController(IMediator mediator) : Controller
 
     [Authorize]
     [HttpPost]
-    public async Task<JsonResult> Insert([FromBody] Models.Entities.ExerciseInputModel data)
+    public async Task<JsonResult> Insert([FromBody] Domain.Models.ExerciseInputModel data)
     {
         JsonResultViewModel result = new();
 
@@ -76,17 +76,7 @@ public class ExercisesController(IMediator mediator) : Controller
             result.data = await _mediator.Send(new CreateExerciseCommand(
                 Name: data.name,
                 Image: data.image,
-                Steps: new QuillEditor()
-                {
-                    ops = data.steps.ops.Select(op => new Op()
-                    {
-                        insert = op.insert,
-                        attributes = op.attributes != null ? new Attributes()
-                        {
-                            list = op.attributes.list
-                        } : null
-                    }).ToList()
-                },
+                Steps: data.steps,
                 MuscleGroups: data.muscleGroups,
                 GymEquipments: data.gymEquipments
             ));
@@ -102,7 +92,7 @@ public class ExercisesController(IMediator mediator) : Controller
 
     [Authorize]
     [HttpPut]
-    public async Task<JsonResult> Update(Guid UID, [FromBody] Models.Entities.ExerciseInputModel data)
+    public async Task<JsonResult> Update(Guid UID, [FromBody] Domain.Models.ExerciseInputModel data)
     {
         JsonResultViewModel result = new();
 
@@ -112,17 +102,7 @@ public class ExercisesController(IMediator mediator) : Controller
                 UID: UID,
                 Name: data.name,
                 Image: data.image,
-                Steps: new QuillEditor()
-                {
-                    ops = data.steps.ops.Select(op => new Op()
-                    {
-                        insert = op.insert,
-                        attributes = op.attributes != null ? new Attributes()
-                        {
-                            list = op.attributes.list
-                        } : null
-                    }).ToList()
-                },
+                Steps: data.steps,
                 MuscleGroups: data.muscleGroups,
                 GymEquipments: data.gymEquipments
             ));

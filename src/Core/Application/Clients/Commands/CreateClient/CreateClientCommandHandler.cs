@@ -9,11 +9,13 @@ using MongoDB.Bson;
 namespace Application.Clients.Commands.CreateClient;
 
 internal sealed class CreateClientCommandHandler(IClientsRepository clientsRepository,
-                                                 IConstantsRepository constantsRepository)
+                                                 IConstantsRepository constantsRepository,
+                                                 IExercisesRepository exercisesRepository)
     : IRequestHandler<CreateClientCommand, ObjectId>
 {
     private readonly IClientsRepository _clientsRepository = clientsRepository;
     private readonly IConstantsRepository _constantsRepository = constantsRepository;
+    private readonly IExercisesRepository _exercisesRepository = exercisesRepository;
 
     public async Task<ObjectId> Handle(CreateClientCommand request, CancellationToken cancellationToken)
     {
@@ -33,14 +35,29 @@ internal sealed class CreateClientCommandHandler(IClientsRepository clientsRepos
             email: request.Email,
             password: BCrypt.Net.BCrypt.HashPassword(request.Password),
             role: roles.values.FirstOrDefault(r => r.value == (int)RolesEnum.Client));
-        
+
+        List<Workout> workouts = request.Workouts.Select(wk => new Workout(
+            id: ObjectId.GenerateNewId(),
+            uid: Guid.NewGuid(),
+            number: wk.number,
+            name: wk.name,
+            exercises: wk.exercises.Select(ex => new WorkoutExercise(
+                uid: Guid.NewGuid(),
+                uidExercise: ex.uidExercise,
+                sets: ex.sets,
+                reps: ex.reps,
+                exercise: _exercisesRepository.Get(e => e.uid == ex.uidExercise).Result
+            )).ToList()
+        )).ToList();
+
         client = new Client(
             id: ObjectId.GenerateNewId(),
             uid: Guid.NewGuid(),
             weight: request.Weight,
             height: request.Height,
-            person: person,
-            user: user);
+            person,
+            user,
+            workouts);
 
         await _clientsRepository.Save(client);
 

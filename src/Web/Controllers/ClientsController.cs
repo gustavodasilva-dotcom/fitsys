@@ -2,11 +2,11 @@
 using Application.Clients.Commands.UpdateClient;
 using Application.Clients.Queries.GetAllClients;
 using Application.Clients.Queries.GetClientById;
+using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using Web.Models.Entities;
 using Web.Models.Global;
 
 namespace Web.Controllers;
@@ -80,7 +80,8 @@ public class ClientsController(IMediator mediator) : Controller
                 Weight: data.weight,
                 Height: data.height,
                 Birthday: data.person.birthday,
-                Profile: data.person.profile
+                Profile: data.person.profile,
+                Workouts: data.workouts
             ));
         }
         catch (Exception e)
@@ -108,7 +109,8 @@ public class ClientsController(IMediator mediator) : Controller
                 Weight: data.weight,
                 Height: data.height,
                 Birthday: data.person.birthday,
-                Profile: data.person.profile
+                Profile: data.person.profile,
+                Workouts: data.workouts
             ));
         }
         catch (Exception e)
